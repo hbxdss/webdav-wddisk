@@ -74,3 +74,7 @@ dist/             安装包脚本（Inno Setup）与构建产物
 - Linux:   `~/.wddisk/config.json`
 
 Windows 端密码使用 DPAPI 按当前用户加密（`dpapi:` 前缀）后写入配置；安装版会给安装目录授予 `users-modify` 权限，账号配置因此可以直接放在安装目录。
+
+## 开源协议
+
+本项目基于 [MIT License](LICENSE) 开源，可自由使用、修改、分发与商用，请保留版权声明。
