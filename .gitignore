@@ -1,0 +1,19 @@
+# 构建产物
+build/
+dist/*
+!dist/wddisk.iss
+
+# 运行期数据（含 WebDAV 账号配置，禁止提交）
+config.json
+cache/
+
+# 测试产物
+tests/shots/
+tests/*.log
+
+# 编译 / 打包文件
+*.o
+*.exe
+*.dll
+*.zip
+*.msi

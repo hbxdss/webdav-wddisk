@@ -1,0 +1,2 @@
+$b64 = [Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes('18915616199:kkwyn8wx'))
+curl.exe -sS -L -H ("Authorization: Basic " + $b64) -H 'Range: bytes=100000000-100065535' 'https://webdav.123pan.cn/webdav/%E7%AC%94%E8%AE%B0%E6%9C%AC%E8%AF%B4%E7%94%B5%E8%84%91%E7%9A%84%E8%99%9A%E6%8B%9F%E6%9C%BA.zip' -o "$env:TEMP\srvrange.bin" -w "code=%{http_code} size=%{size_download}`n" 2>&1 | Write-Host

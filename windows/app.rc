@@ -1,0 +1,5 @@
+// app.rc - 应用资源：exe 图标 + DPI/兼容性清单
+#include <windows.h>
+
+1 ICON "app.ico"
+1 24 "app.manifest"
