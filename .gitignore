@@ -17,3 +17,6 @@ tests/*.log
 *.dll
 *.zip
 *.msi
+
+# IDE 配置
+.vscode/

@@ -41,35 +41,39 @@ Windows 真实本地盘符（如 `Z:`），通过 WinFsp 用户态文件系统�
 
 首次启动如果 WinFsp 没装，会提示下载：https://winfsp.dev/rel/
 
-## 源码构建
-```bash
-# 依赖：WinFsp SDK + MinGW-w64 / LLVM-MinGW
-# 安装 WinFsp 时勾选 "Developer files"，记下 include/lib 路径
+## 源码构建（Windows）
+依赖：WinFsp SDK + MinGW-w64 / LLVM-MinGW
 
+```bash
+# 1. 安装 WinFsp（https://winfsp.dev/rel/），选 Developer files，记下 include/lib 路径
+
+# 2. 编译源码
 g++ -DUNICODE -D_UNICODE -std=c++17 -O2 -ffunction-sections -fdata-sections \
     -Icommon -Iwindows -I<WinFsp 头文件路径> \
     -c windows/app.cpp common/webdav.cpp windows/webdav_fs.cpp windows/winhttp_client.cpp \
        windows/app.rc \
     -o build/sz-o2s/
 
+# 3. 链接
 g++ -static -mwindows -municode -Wl,--gc-sections -s \
     -Lbuild/win -o build/win/wddisk.exe \
     build/sz-o2s/*.o \
     -lwinfsp-x64 -lwinhttp -lcrypt32 -ladvapi32 -lole32 -lshell32 \
     -luuid -lgdi32 -lmsimg32 -ldwmapi
+
+# 4. 制作安装包：dist/wddisk.iss（用 Inno Setup 6 编译，内嵌 WinFsp MSI）
 ```
 
 ## 目录结构
 ```
-common/       # WebDAV 协议层、JSON 配置
-windows/      # WinFsp 后端 + Win32 自绘深色 UI（核心）
-macos/ linux/ # 同架构的跨平台后端草稿（未打包发布）
-tests/        # PowerShell 回归脚本 + 诊断小工具
-dist/         # Inno Setup 安装包脚本
+common/       WebDAV 协议层（PROPFIND/GET Range/PUT/MOVE/DELETE）、JSON 配置
+windows/      WinFsp 后端 + Win32 自绘深色 UI（核心） + Inno Setup 脚本
+tests/        PowerShell 回归脚本 + 诊断小工具（非必需）
+dist/         安装包脚本（wddisk.iss）
 ```
 
 ## 配置存储
-Windows 端优先存在 `wddisk.exe` 同目录（可移植），装到只读目录时
+优先存在 `wddisk.exe` 同目录（可移植），装到只读目录时
 回退到 `%LOCALAPPDATA%\Wddisk\config.json`。密码用 DPAPI 加密后写入。
 
 ## 开源协议
